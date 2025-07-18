@@ -17,7 +17,7 @@
                   Uploaded: {{ resume.uploaded_at|date:"M d, Y H:i" }}
                 </p>
               </div>
-              <a href="{% url 'analysis_result' resume.id %}" class="text-sm text-primary hover:underline font-medium">
+              <a href="{% url 'resume_analysis_result' resume.id %}" class="text-sm text-primary hover:underline font-medium">
                 View Report →
               </a>
             </div>
