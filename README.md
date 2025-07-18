@@ -31,11 +31,6 @@
 - Automatically extracts and cleans text from PDF.
 - Filters out words ≤ 3 characters for better analysis.
 
-### 📊 Result Dashboard
-- Instant feedback displayed after analysis.
-- Neatly separated AI and Non-AI sections.
-- Job Description and Resume Text with **Read More/Less** toggles.
-
 ### 🗂️ History View (Logged-In Users)
 - Displays a personal list of all uploaded resumes and analysis reports.
 - Easy access to revisit past insights.
