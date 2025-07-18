@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load markdownify %}  {# ⬅️ Load the markdown filter #}
+{% block title %}Resume Analysis Result - CVSmart{% endblock %}
+
+{% block content %}
+<!-- ✅ Include Alpine.js -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+<div class="bg-gray-100 min-h-screen py-10 px-4">
+  <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-xl p-10">
+    
+    <div class="mb-10 border-b pb-6">
+      <h1 class="text-3xl font-bold text-primary mb-2">Resume Analysis Report</h1>
+      <p class="text-gray-600">Generated on: {{ resume.uploaded_at|date:"F d, Y H:i" }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <!-- 🤖 AI-Based Markdown Analysis -->
+      <div class="bg-blue-50 rounded-lg p-6 border border-blue-200 shadow">
+        <h2 class="text-2xl font-semibold text-blue-700 mb-4">🤖 AI-Powered Insights</h2>
+
+        {% if result.ai_markdown %}
+          <div class="prose max-w-none">
+            {{ result.ai_markdown|markdownify }}
+          </div>
+        {% else %}
+          <p class="text-red-500">❌ AI Analysis not available.</p>
+        {% endif %}
+      </div>
+
+      <!-- 🧠 Rule-Based (Non-AI) Analysis -->
+      <div class="bg-green-50 rounded-lg p-6 border border-green-200 shadow">
+        <h2 class="text-2xl font-semibold text-green-700 mb-4">🧠 Non-AI (Rule-Based) Analysis</h2>
+
+        {% if result.non_ai_analysis %}
+        <div class="space-y-3 text-sm text-gray-800">
+          <p><strong>Rule-Based Score:</strong> {{ result.non_ai_analysis.rule_based_score|default:"N/A" }}%</p>
+          <p><strong>Total Resume Word Count:</strong> {{ result.non_ai_analysis.resume_word_count|default:"N/A" }}</p>
+
+          <div>
+            <strong>Matching Keywords:</strong>
+            {% if result.non_ai_analysis.matching_keywords %}
+              <div class="flex flex-wrap gap-2 mt-2">
+                {% for kw in result.non_ai_analysis.matching_keywords %}
+                <span class="bg-green-200 text-green-800 px-2 py-1 rounded text-xs font-semibold">{{ kw }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-sm text-gray-500">No matching keywords found.</p>
+            {% endif %}
+          </div>
+
+          <div>
+            <strong>Missing Keywords:</strong>
+            {% if result.non_ai_analysis.missing_keywords %}
+              <div class="flex flex-wrap gap-2 mt-2">
+                {% for kw in result.non_ai_analysis.missing_keywords %}
+                <span class="bg-red-200 text-red-800 px-2 py-1 rounded text-xs font-semibold">{{ kw }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-sm text-gray-500">No missing keywords.</p>
+            {% endif %}
+          </div>
+        </div>
+        {% else %}
+        <p class="text-red-500">❌ Non-AI Analysis not available.</p>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <!-- 📄 Job Description and Resume Text with Toggle -->
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <!-- Job Description -->
+      <div x-data="{ expanded: false }">
+        <h3 class="text-xl font-semibold mb-2 text-gray-700">📄 Job Description</h3>
+        <div
+          class="bg-gray-50 p-4 rounded shadow text-sm text-gray-800 whitespace-pre-wrap"
+          x-text="expanded ? `{{ resume.job_description|escapejs }}` : `{{ resume.job_description|truncatechars:500|escapejs }}`"
+        ></div>
+        <button
+          @click="expanded = !expanded"
+          class="mt-2 font-bold text-blue-500 hover:underline text-sm"
+        >
+          <span x-text="expanded ? 'Read less' : 'Read more'"></span>
+        </button>
+      </div>
+
+      <!-- Resume Extracted Text -->
+      <div x-data="{ expanded: false }">
+        <h3 class="text-xl font-semibold mb-2 text-gray-700">📋 Resume Extracted Text</h3>
+        <div
+          class="bg-gray-50 p-4 rounded shadow text-sm text-gray-800 whitespace-pre-wrap"
+          x-text="expanded ? `{{ resume.extracted_text|default:"No text extracted."|escapejs }}` : `{{ resume.extracted_text|default:"No text extracted."|truncatechars:500|escapejs }}`"
+        ></div>
+        <button
+          @click="expanded = !expanded"
+          class="mt-2 font-bold  hover:underline text-sm"
+        >
+          <span x-text="expanded ? 'Read less' : 'Read more'"></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% load static %} {% block title %}Upload Resume -
+CVSmart{% endblock %} {% block content %}
+<div class="bg-black py-20 min-h-screen text-white">
+  <div class="container mx-auto max-w-2xl px-6">
+    <div class="bg-neutral rounded-lg shadow-xl p-10">
+      <h2 class="text-3xl font-bold text-center text-primary mb-8">
+        Upload Your Resume
+      </h2>
+
+      <p class="text-center text-gray-300 mb-6">
+        Choose a PDF or DOCX file to upload. Your resume will be analyzed using
+        our AI.
+      </p>
+
+      <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %} {% if form.non_field_errors %}
+        <div class="alert alert-error shadow-lg">
+          <span>{{ form.non_field_errors }}</span>
+        </div>
+        {% endif %} {% if error %}
+        <div class="text-red-600 text-sm mb-4">{{ error }}</div>
+        {% endif %}
+
+        <div class="form-control w-full">
+          <label class="label">
+            <span class="label-text text-white">Select Resume</span>
+          </label>
+          <input
+            type="file"
+            name="file"
+            accept=".pdf,.doc,.docx"
+            class="file-input file-input-bordered w-full bg-white text-black"
+            required
+          />
+          {% if form.file.errors %}
+          <label class="label">
+            <span class="label-text-alt text-error"
+              >{{ form.file.errors }}</span
+            >
+          </label>
+          {% endif %}
+        </div>
+
+        <div class="form-control w-full">
+          <label class="label">
+            <span class="label-text text-white">Job Description</span>
+          </label>
+          <textarea
+            name="job_description"
+            class="textarea textarea-bordered w-full bg-white text-black"
+            rows="5"
+            placeholder="Paste the job description here"
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full">
+          Upload & Analyze
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

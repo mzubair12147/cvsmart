@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CVSmart - Home{% endblock %}
+
+{% block content %}
+<div class="bg-black py-16 text-white">
+  <div class="container mx-auto px-6 lg:px-20 text-center">
+    <h1 class="text-4xl lg:text-5xl font-extrabold text-primary mb-6">
+      Welcome to <span class="text-secondary">CVSmart</span>
+    </h1>
+
+    <p class="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+      Your AI-powered resume analyzer. Improve your CV, land interviews, and
+      stand out in a competitive job market.
+    </p>
+
+    {% if user.is_authenticated %}
+      <div></div>
+    {% else %}
+      <div class="flex justify-center space-x-4">
+        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-outline btn-accent">Sign Up</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="mt-16 flex justify-center">
+    <img
+      src="{% static 'img/resume_illustration_blue.svg' %}"
+      alt="Resume Illustration"
+      class="max-w-md w-full"
+    />
+  </div>
+</div>
+{% endblock %}

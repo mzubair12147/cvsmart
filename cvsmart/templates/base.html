@@ -1,0 +1,56 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CVSmart{% endblock %}</title>
+    {% tailwind_css %} {# This is the crucial part for Tailwind #}
+    {# You can add other static CSS files here if needed, but Tailwind aims to replace most of them #}
+    {# <link rel="stylesheet" href="{% static 'css/your_custom.css' %}"> #}
+</head>
+<body class="bg-background text-gray-900 font-sans antialiased text-darktext">
+    {# A common practice is to add some default styles to the body #}
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-white shadow py-4 px-6">
+            <nav class="container mx-auto flex justify-between items-center p-2">
+                <a href="/" class="text-2xl font-bold text-indigo-600">CVSmart</a>
+                <div>
+                    <a href="/" class="ml-4 text-gray-600 hover:text-indigo-600">Home</a>
+                    <a href="/analyzer/upload" class="ml-4 text-gray-600 hover:text-indigo-600">Upload</a>
+                    <a href="/analyzer/history" class="ml-4 text-gray-600 hover:text-indigo-600">History</a>
+                </div>
+                <div>
+                    {% if user.is_authenticated %}
+                        <span class="text-xl ml-4 text-gray-800">Hi, {{ user.username }}</span>
+                        <a href="{% url 'logout' %}" class="btn text-white ml-4 hover:text-indigo-600">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="ml-4 text-gray-600 hover:text-indigo-600">Login</a>
+                        <a href="{% url 'signup' %}" class="ml-4 text-gray-600 hover:text-indigo-600">Register</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+        
+
+        <main class="flex-grow container mx-auto py-8 px-6">
+            {% block content %}
+            {# Content from child templates will go here #}
+            {% endblock %}
+        </main>
+
+        <footer class="bg-gray-800 text-white py-4 px-6 mt-8">
+            <div class="container mx-auto text-center text-sm">
+                &copy; {% now "Y" %} My Project. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    {# django-browser-reload requires this for hot-reloading #}
+    {% if DEBUG %}
+        {% include "django_browser_reload/includes/reload.html" %}
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</body>
+</html>
