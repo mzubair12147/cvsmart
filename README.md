@@ -1,4 +1,5 @@
 # 💼 CVSmart – AI-Powered Resume Analyzer
+#### Video Demo:  https://drive.google.com/file/d/17mzbQf0WP2sHueyx_zcbgDnnyoGvFPuY/view?usp=sharing
 #### Description:
 **CVSmart** is an intelligent, full-stack Django web application that helps job seekers instantly analyze and improve their resumes based on job descriptions using a blend of AI-powered (Gemini) and rule-based analysis. It provides insights into ATS match scores, missing keywords, skill overlaps, and tailored improvement suggestions—all wrapped in a clean, responsive UI.
 
